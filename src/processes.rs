@@ -3,6 +3,7 @@ use serde_json::value::Value;
 use super::to_do::ItemTypes;
 use super::to_do::structs::done::Done;
 use super::to_do::structs::pending::Pending;
+use super::to_do::structs::onhold::OnHold;
 use super::to_do::structs::traits::get::Get;
 use super::to_do::structs::traits::create::Create;
 use super::to_do::structs::traits::edit::Edit;
@@ -29,9 +30,19 @@ fn process_done(item: Done, command: String, state: &Map<String, Value>) {
     }
 }
 
+fn process_onhold(item: OnHold, command: String, state: &Map<String, Value>) {
+    let mut state = state.clone();
+    match command.as_str() {
+        "get" => item.get(&item.super_struct.title, &state),
+        "edit" => item.set_to_onhold(&item.super_struct.title, &mut state),
+        _ => println!("command: {} not supported", command)
+    }
+}
+
 pub fn process_input(item: ItemTypes, command: String, state: &Map<String, Value>) {
     match item {
         ItemTypes::Pending(item) => process_pending(item, command, state),
-        ItemTypes::Done(item) => process_done(item, command, state)
+        ItemTypes::Done(item) => process_done(item, command, state),
+        ItemTypes::OnHold(item) => process_onhold(item, command, state)
     }
 }

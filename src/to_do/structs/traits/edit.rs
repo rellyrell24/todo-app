@@ -14,4 +14,9 @@ pub trait Edit {
         write_file("./state.json", state);
         println!("\n\n{} is being set to pending\n\n", title);
     }
+    fn set_to_onhold(&self, title: &str, state: &mut Map<String, Value>) {
+        state.insert(title.to_string(), json!(String::from("on hold")));
+        write_file("./state.json", state);
+        println!("\n\n{} is being set to on hold\n\n", title);
+    }
 }
