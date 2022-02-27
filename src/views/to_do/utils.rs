@@ -1,11 +1,10 @@
-use actix_web::{web, Responder};
 use serde_json::value::Value;
 use serde_json::Map;
 use crate::state::read_file;
 use crate::to_do::{ItemTypes, to_do_factory};
 use crate::json_serialization::to_do_items::ToDoItems;
 
-pub fn return_state()  -> impl Responder {
+pub fn return_state() -> ToDoItems {
     let state: Map<String, Value> = read_file("./state.json");
     let mut array_buffer = Vec::new();
     for (key, value) in state {
@@ -14,5 +13,5 @@ pub fn return_state()  -> impl Responder {
         array_buffer.push(item);
     }
     let return_package: ToDoItems = ToDoItems::new(array_buffer);
-    return web::Json(return_package);
+    return return_package;
 }

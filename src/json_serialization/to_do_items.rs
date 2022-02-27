@@ -1,8 +1,14 @@
 use actix_web::{Responder, HttpResponse, Error, HttpRequest};
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
 use crate::to_do::ItemTypes;
 use crate::to_do::structs::base::Base;
 use std::future;
+
+#[derive(Deserialize)]
+pub struct ToDoItem {
+    pub title: String,
+    pub status: String
+}
 
 #[derive(Serialize)]
 pub struct ToDoItems {
