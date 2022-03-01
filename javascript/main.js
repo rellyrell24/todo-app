@@ -40,7 +40,7 @@ function apiCall(url, method) {
 }
 
 function editItem() {
-    let title = this.id.replaceAll("-", " ").replace("edit", "");
+    let title = this.id.replaceAll("-", " ").replace("edit", "").trim();
     let call = apiCall("/item/edit", "PUT");
     let json = {
         "title": title,
@@ -50,7 +50,7 @@ function editItem() {
 }
 
 function deleteItem() {
-    let title = this.id.replaceAll("-", " ").replace("delete", "");
+    let title = this.id.replaceAll("-", " ").replace("delete", "").trim();
     let call = apiCall("/item/delete", "POST");
     let json = {
         "title": title,
